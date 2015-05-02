@@ -752,6 +752,260 @@ public class ArrayUtils {
 	
 	
 	
+	/*
+	 * Digit computation of primitive type arrays(no char type): SUM.
+	 */
+	
+	/**
+	 * SUM all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be SUM
+	 * @return
+	 */
+	public static int sum(int[] arr){
+		int sum = 0;
+		for(int i = 0, l = arr.length; i < l; i++){
+			sum += arr[i];
+		}
+		return sum;
+	}
+	/**
+	 * SUM all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be SUM
+	 * @return
+	 */
+	public static double sum(double[] arr){
+		double sum = 0;
+		for(int i = 0, l = arr.length; i < l; i++){
+			sum += arr[i];
+		}
+		return sum;
+	}
+	/**
+	 * SUM all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be SUM
+	 * @return
+	 */
+	public static float sum(float[] arr){
+		float sum = 0;
+		for(int i = 0, l = arr.length; i < l; i++){
+			sum += arr[i];
+		}
+		return sum;
+	}
+	/**
+	 * SUM all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be SUM
+	 * @return
+	 */
+	public static long sum(long[] arr){
+		long sum = 0;
+		for(int i = 0, l = arr.length; i < l; i++){
+			sum += arr[i];
+		}
+		return sum;
+	}
+	/**
+	 * SUM all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be SUM
+	 * @return
+	 */
+	public static short sum(short[] arr){
+		short sum = 0;
+		for(int i = 0, l = arr.length; i < l; i++){
+			sum += arr[i];
+		}
+		return sum;
+	}
+	/**
+	 * SUM all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be SUM
+	 * @return
+	 */
+	public static byte sum(byte[] arr){
+		byte sum = 0;
+		for(int i = 0, l = arr.length; i < l; i++){
+			sum += arr[i];
+		}
+		return sum;
+	}
+	
+	
+	
+	/*
+	 * Digit computation of primitive type arrays(no char type): AVG.
+	 */
+	
+	/**
+	 * AVG all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be AVG
+	 * @return
+	 */
+	public static float avg(int[] arr){
+		return (float) sum(arr) / arr.length;
+	}
+	/**
+	 * AVG all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be AVG
+	 * @return
+	 */
+	public static float avg(double[] arr){
+		return (float) sum(arr) / arr.length;
+	}
+	/**
+	 * AVG all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be AVG
+	 * @return
+	 */
+	public static float avg(float[] arr){
+		return (float) sum(arr) / arr.length;
+	}
+	/**
+	 * AVG all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be AVG
+	 * @return
+	 */
+	public static float avg(long[] arr){
+		return (float) sum(arr) / arr.length;
+	}
+	/**
+	 * AVG all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be AVG
+	 * @return
+	 */
+	public static float avg(short[] arr){
+		return (float) sum(arr) / arr.length;
+	}
+	/**
+	 * AVG all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be AVG
+	 * @return
+	 */
+	public static float avg(byte[] arr){
+		return (float) sum(arr) / arr.length;
+	}
+	
+	
+	
+	/*
+	 * Digit computation of primitive type arrays(no char array): POW.
+	 */
+	
+	/**
+	 * POW all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be POW
+	 * @param p
+	 */
+	public static void pow(int[] arr, double p){
+		for(int i = 0, l = arr.length; i < l; i++){
+			arr[i] = (int) Math.pow(arr[i], p);
+		}
+	}
+	/**
+	 * POW all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be POW
+	 * @param p
+	 */
+	public static void pow(double[] arr, double p){
+		for(int i = 0, l = arr.length; i < l; i++){
+			arr[i] = (double) Math.pow(arr[i], p);
+		}
+	}
+	/**
+	 * POW all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be POW
+	 * @param p
+	 */
+	public static void pow(float[] arr, double p){
+		for(int i = 0, l = arr.length; i < l; i++){
+			arr[i] = (float) Math.pow(arr[i], p);
+		}
+	}
+	/**
+	 * POW all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be POW
+	 * @param p
+	 */
+	public static void pow(long[] arr, double p){
+		for(int i = 0, l = arr.length; i < l; i++){
+			arr[i] = (long) Math.pow(arr[i], p);
+		}
+	}
+	/**
+	 * POW all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be POW
+	 * @param p
+	 */
+	public static void pow(short[] arr, double p){
+		for(int i = 0, l = arr.length; i < l; i++){
+			arr[i] = (short) Math.pow(arr[i], p);
+		}
+	}
+	/**
+	 * POW all elements of the specified primitive type array.
+	 * @author Crow
+	 * @date 2015年5月2日
+	 * @version v0.1
+	 * @param arr the array to be POW
+	 * @param p
+	 */
+	public static void pow(byte[] arr, double p){
+		for(int i = 0, l = arr.length; i < l; i++){
+			arr[i] = (byte) Math.pow(arr[i], p);
+		}
+	}
+	
+	
 	
 	
 	
