@@ -1,23 +1,27 @@
 package org.rw.crow.example;
 
+import java.util.Arrays;
+
 import org.rw.crow.array.ArrayUtils;
 
 /**
- * 测试Array工具类
+ * Test ArrayUtils
  * @author Crow
- * @date 2015年5月1日 上午9:57:43
+ * @date 2015年5月1日
  * @version v0.1
  */
 public class ArrayTest {
 	public static void main(String[] args) {
 		int[] arr1 = {1, 5, 12, 7, 43};
-		ArrayUtils.sortAsc(arr1);
-		for(int num : arr1){
-			System.out.println(num);
-		}
+		System.out.println("Source array: " + Arrays.toString(arr1));
 		
 		int[] extreme = ArrayUtils.getExtreme(arr1);
-		System.out.println(extreme[0]);
-		System.out.println(extreme[1]);
+		System.out.println("Extreme valus: " + Arrays.toString(extreme));
+		
+		ArrayUtils.reverse(arr1);
+		System.out.println("Reversed array: " + Arrays.toString(arr1));
+		
+		Arrays.sort(arr1);
+		System.out.println(3 / 2);
 	}
 }
