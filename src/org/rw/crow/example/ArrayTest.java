@@ -32,7 +32,5 @@ public class ArrayTest {
 		
 		
 		
-		Arrays.sort(arr1);
-		System.out.println(3 / 2);
 	}
 }
