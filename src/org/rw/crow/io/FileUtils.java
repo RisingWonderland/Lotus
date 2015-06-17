@@ -156,8 +156,8 @@ public class FileUtils {
 	 * @author Crow
 	 * @date 2015年6月17日
 	 * @version v0.1
-	 * @param sourceFile
-	 * @param targetFile
+	 * @param sourceFile the original file.
+	 * @param targetFile the new generated file.
 	 */
 	public static void copyFile(File sourceFile, File targetFile){
 		FileInputStream fis = null;
@@ -190,12 +190,12 @@ public class FileUtils {
 	}
 	
 	/**
-	 * 
+	 * Delete file.
 	 * @author Crow
 	 * @date 2015年6月17日
 	 * @version v0.2
-	 * @param file	要删除的文件（夹）
-	 * @param force	如果要删除的File对象是非空文件夹，是否将其删除
+	 * @param file	the file to be deleted.
+	 * @param force	if true, and the file is a non-empty folder, still delete.
 	 * @return
 	 */
 	public static boolean delete(File file, boolean force){
