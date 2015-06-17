@@ -1,4 +1,4 @@
-package org.rw.crow.example;
+package org.rw.crow.test;
 
 import java.util.Arrays;
 
@@ -8,7 +8,6 @@ import org.rw.crow.array.ArrayUtils;
  * Test ArrayUtils
  * @author Crow
  * @date 2015年5月1日
- * @version v0.1
  */
 public class ArrayTest {
 	public static void main(String[] args) {
@@ -27,9 +26,6 @@ public class ArrayTest {
 		
 		ArrayUtils.pow(arr1, 2);
 		System.out.println("POW array: " + Arrays.toString(arr1));
-		
-		
-		
 		
 		
 	}

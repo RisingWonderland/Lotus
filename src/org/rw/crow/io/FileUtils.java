@@ -1,6 +1,7 @@
 package org.rw.crow.io;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 import org.rw.crow.regular.CheckValid;
 
@@ -47,42 +50,63 @@ public class FileUtils {
 	 * Writes string content to append to a file.
 	 * @author Crow
 	 * @date 2015年5月25日
-	 * @version v0.1
-	 * @param file the file we want to write
-	 * @param content the content we wrote
+	 * @version v0.2
+	 * @param file file to be opened for writing
+	 * @param content the content to be written  
+	 * @return
 	 */
-	public static void write(File file, Object content){
-		write(file, content, true);
+	public static boolean write(File file, Object content){
+		return write(file, content, Charset.forName("UTF-8"), true);
 	}
 	
 	/**
 	 * Writes string content into a file.
 	 * @author Crow
 	 * @date 2015年5月25日
-	 * @version v0.1
-	 * @param file the file we want to write
-	 * @param content the content we wrote
+	 * @version v0.2
+	 * @param file file to be opened for writing
+	 * @param content the content to be written  
+	 * @return
 	 */
-	public static void write(File file, Object content, boolean append){
-		FileOutputStream fos = null;
+	public static boolean write(File file, Object content, boolean append){
+		return write(file, content, Charset.forName("UTF-8"), append);
+	}
+	
+	/**
+	 * Writes string content into a file.
+	 * @author Crow
+	 * @date 2015年6月17日
+	 * @version v0.1
+	 * @param file > the file to be opened for writing
+	 * @param content > the content to be written  
+	 * @param cs > default UTF-8
+	 * @param append if true, the content will be written to the end of the file rather than the beginning
+	 * @return
+	 */
+	public static boolean write(File file, Object content, Charset cs, boolean append){
+		OutputStreamWriter osw = null;
+		BufferedWriter bw = null;
 		try {
-			 fos = new FileOutputStream(file, append);
-			 byte[] data = content.toString().getBytes();
-			 fos.write(data);
-			 fos.flush();
+			osw = new OutputStreamWriter(new FileOutputStream(file, append), cs);
+			bw = new BufferedWriter(osw);
+			bw.write(content.toString());
+			bw.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
-				if(fos != null){
-					fos.close();
-				}
-			} catch (IOException e) {
+				if(bw != null) bw.close();
+				if(osw != null) osw.close();
+			} catch (IOException e){
 				e.printStackTrace();
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	/**
@@ -127,4 +151,70 @@ public class FileUtils {
 		return sbd.toString();
 	}
 	
+	/**
+	 * Copy a file.
+	 * @author Crow
+	 * @date 2015年6月17日
+	 * @version v0.1
+	 * @param sourceFile
+	 * @param targetFile
+	 */
+	public static void copyFile(File sourceFile, File targetFile){
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		try {
+			 fis = new FileInputStream(sourceFile);
+			 fos = new FileOutputStream(targetFile);
+			 byte[] buffer = new byte[1024];
+			 int length = 0;
+			 while((length = fis.read(buffer)) != -1){
+				 fos.write(buffer, 0, length);
+			 }
+			 fos.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(fos != null){
+					fos.close();
+				}
+				if(fis != null){
+					fis.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @author Crow
+	 * @date 2015年6月17日
+	 * @version v0.2
+	 * @param file	要删除的文件（夹）
+	 * @param force	如果要删除的File对象是非空文件夹，是否将其删除
+	 * @return
+	 */
+	public static boolean delete(File file, boolean force){
+		if(!force){
+			return file.delete();
+		}
+		
+		// 判断file对象类型
+		// 如果file是文件，跳过if，删除；
+		// 如果是文件夹，进入if，遍历删除内部资料，再删除空文件夹
+		if(file.isDirectory()){
+			String[] filePaths = file.list();
+			for(String childPath : filePaths){
+				if(!delete(new File(file, childPath), force)){
+					return false;
+				}
+			}
+		}
+		
+		return file.delete();
+	}
 }
