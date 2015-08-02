@@ -29,6 +29,8 @@ import java.util.zip.GZIPOutputStream;
  */
 public class GZipUtils {
 	
+	private GZipUtils(){}
+	
 	private static final int BYTE_BUFFER = 1024;
 	private static final String GZIP_FILE_SUFFIX = ".gz";
 	

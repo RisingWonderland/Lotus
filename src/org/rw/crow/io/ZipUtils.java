@@ -28,6 +28,8 @@ import java.util.zip.ZipOutputStream;
  */
 public class ZipUtils {
 	
+	private ZipUtils(){}
+	
 	private static int zipFileCount = 0;
 	private static int zipFolderCount = 0;
 	
