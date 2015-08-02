@@ -3,6 +3,8 @@ package org.rw.crow.security;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.rw.crow.commons.StringUtils;
+
 /**
  * Data encode by HASH.
  * @author Crow
@@ -30,31 +32,11 @@ public class Encode {
 		try {
 			md = MessageDigest.getInstance(hashType);
 			byte[] data = md.digest(msg.getBytes());
-			cipherText = bytesToHexString(data);
+			cipherText = StringUtils.bytes2HexString(data);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 		return cipherText;
-	}
-	
-	/**
-	 * byte[] to hex string.
-	 * @author Crow
-	 * @date 2015年8月2日
-	 * @param bytes
-	 * @return
-	 */
-	public static String bytesToHexString(byte[] bytes) {   
-		StringBuffer sb = new StringBuffer(bytes.length);
-		String sTemp;
-		for (int i = 0; i < bytes.length; i++) {
-			sTemp = Integer.toHexString(0xFF & bytes[i]);
-			if (sTemp.length() < 2){
-				sb.append(0);
-			}
-			sb.append(sTemp.toUpperCase());
-		}
-		return sb.toString();
 	}
 	
 	

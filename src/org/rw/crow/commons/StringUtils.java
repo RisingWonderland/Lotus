@@ -1,4 +1,4 @@
-package org.rw.crow.io;
+package org.rw.crow.commons;
 
 /**
  * Provides some methods for String.
