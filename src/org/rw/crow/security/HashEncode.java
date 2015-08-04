@@ -1,17 +1,24 @@
 package org.rw.crow.security;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.rw.crow.commons.StringUtils;
 
 /**
- * Data encode by HASH.
+ * Data encode.
  * @author Crow
  * @date 2015年8月2日
  *
  */
-public class Encode {
+public class HashEncode {
 	
 	public static final String MD5 = "MD5";
 	public static final String SHA = "SHA";
@@ -41,7 +48,7 @@ public class Encode {
 	
 	
 	/**
-	 * MD5.
+	 * MD5 encode.
 	 * @author Crow
 	 * @date 2015年8月2日
 	 * @param msg
@@ -52,7 +59,49 @@ public class Encode {
 	}
 	
 	/**
-	 * SHA.
+	 * Get a file's MD5.
+	 * @author Crow
+	 * @date 2015年8月4日
+	 * @param file
+	 * @return
+	 */
+	public static String MD5(File file){
+		String result = null;
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			MappedByteBuffer mbb = fis.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+			MessageDigest md = MessageDigest.getInstance("MD5");
+
+			// support big file
+			byte[] buffer = new byte[8192];
+			int length;
+			while((length = fis.read(buffer)) != -1){
+				md.update(buffer, 0, length);
+			}
+			
+			BigInteger bi = new BigInteger(1, md.digest());
+			result = bi.toString(16).toUpperCase();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} finally {
+			if(fis != null){
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * SHA encode.
 	 * @author Crow
 	 * @date 2015年8月2日
 	 * @param msg
@@ -63,7 +112,7 @@ public class Encode {
 	}
 	
 	/**
-	 * SHA-256.
+	 * SHA-256 encode.
 	 * @author Crow
 	 * @date 2015年8月2日
 	 * @param msg
@@ -74,7 +123,7 @@ public class Encode {
 	}
 	
 	/**
-	 * SHA-512.
+	 * SHA-512 encode.
 	 * @author Crow
 	 * @date 2015年8月2日
 	 * @param msg
@@ -83,4 +132,6 @@ public class Encode {
 	public static String SHA_512(String msg){
 		return hashEncode(SHA512, msg);
 	}
+	
+	
 }
