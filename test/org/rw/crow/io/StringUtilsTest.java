@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.rw.crow.commons.PathUtils;
 
 /**
  * 
@@ -15,7 +14,7 @@ import org.rw.crow.commons.PathUtils;
  * @date 2015年9月2日
  *
  */
-public class PathUtilsTest {
+public class StringUtilsTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -34,17 +33,13 @@ public class PathUtilsTest {
 	}
 
 	@Test
-	public void testGetDirPath() {
+	public void testHexString2Bytes() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetFilePath() {
-		String path = PathUtils.getFilePath("README.md", 
-			"C:\\\"Workspaces\"\\MyEclipse Professional 2014\\Lotus", 
-			"alice/kepler/", 
-			"galileo");
-		System.out.println(path);
+	public void testBytes2HexString() {
+		fail("Not yet implemented");
 	}
 
 }
