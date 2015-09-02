@@ -29,7 +29,7 @@ public class PathUtilsTest {
 	@Test
 	public void getStringTest() {
 		String path = PathUtils.getFilePath("README.md", 
-			"C:\\Users\\risin\\\"Workspaces\"\\MyEclipse Professional 2014\\Lotus", 
+			"C:\\\"Workspaces\"\\MyEclipse Professional 2014\\Lotus", 
 			"kepler/abc/", 
 			"galileo");
 		System.out.println(path);
