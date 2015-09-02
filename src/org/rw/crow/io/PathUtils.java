@@ -51,11 +51,6 @@ public class PathUtils {
 			return "";
 		}
 		
-		System.out.println("Before:");
-		for (int i = 0; i < length; i++) {
-			System.out.println(paths[i]);
-		}
-		
 		StringBuilder sb = new StringBuilder();
 		String pathPart = null;
 		String separator = "/", rSeparator = "\\\\";
@@ -63,13 +58,11 @@ public class PathUtils {
 			separator = "\\\\";
 			rSeparator = "/";
 		}
-		System.out.println("\nAfter:");
 		for (int i = 0; i < length; i++) {
 			pathPart = paths[i]
 					.replaceAll("\"", "")
 					.replaceAll(rSeparator, separator);
 			pathPart = pathPart.replaceAll(separator + "$", "") + SEPARATOR;
-			System.out.println(pathPart);
 			sb.append(pathPart);
 		}
 		
