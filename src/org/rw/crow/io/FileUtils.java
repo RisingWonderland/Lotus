@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
@@ -23,6 +24,8 @@ import org.rw.crow.regular.CheckValid;
  * @version v0.1
  */
 public class FileUtils {
+	
+	private final static int BUFFER_SIZE = 1024;
 
 	// ensuring cannot instantiate
 	private FileUtils(){}
@@ -129,7 +132,7 @@ public class FileUtils {
 			is = new FileInputStream(file);
 			isr = new InputStreamReader(is, "UTF-8");
 			br = new BufferedReader(isr);
-			char[] data = new char[1024];
+			char[] data = new char[BUFFER_SIZE];
 			int len = 0;
 			while((len = br.read(data)) != -1){
 				sbd.append(String.valueOf(data, 0, len));
@@ -152,6 +155,25 @@ public class FileUtils {
 	}
 	
 	/**
+	 * Copy data from input stream to output stream.
+	 * @author Crow
+	 * @date 2015年9月2日
+	 * @param is data source
+	 * @param os data output destination
+	 */
+	public static void copy(InputStream is, OutputStream os){
+		try {
+			byte[] buffer = new byte[BUFFER_SIZE];
+			int length = 0;
+			while((length = is.read(buffer)) != -1){
+				os.write(buffer, 0, length);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Copy a file.
 	 * @author Crow
 	 * @date 2015年6月17日
@@ -165,7 +187,7 @@ public class FileUtils {
 		try {
 			 fis = new FileInputStream(sourceFile);
 			 fos = new FileOutputStream(targetFile);
-			 byte[] buffer = new byte[1024];
+			 byte[] buffer = new byte[BUFFER_SIZE];
 			 int length = 0;
 			 while((length = fis.read(buffer)) != -1){
 				 fos.write(buffer, 0, length);
