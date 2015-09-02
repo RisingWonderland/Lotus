@@ -2,15 +2,13 @@ package org.rw.crow.io;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FileUtilsTest {
+public class PathUtilsTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -29,10 +27,12 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void copyTest() {
-		File file = new File("");
-		System.out.println(file.getAbsolutePath().toString());
-		System.out.println(File.separator);
+	public void getStringTest() {
+		String path = PathUtils.getFilePath("README.md", 
+			"C:\\Users\\risin\\\"Workspaces\"\\MyEclipse Professional 2014\\Lotus", 
+			"kepler/abc/", 
+			"galileo");
+		System.out.println(path);
 	}
 
 }
