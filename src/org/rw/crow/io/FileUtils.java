@@ -12,7 +12,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.file.FileAlreadyExistsException;
 
+import org.rw.crow.commons.PathUtils;
 import org.rw.crow.regular.CheckValid;
 
 /**
@@ -26,6 +28,11 @@ import org.rw.crow.regular.CheckValid;
 public class FileUtils {
 	
 	private final static int BUFFER_SIZE = 1024;
+	// file attributes
+	private final static String READ_ONLY = "readOnly";
+	private final static String CAN_WRITE = "canWrite";
+	private final static String HIDDEN = "hidden";
+	private final static String VISIBLE = "visible";
 
 	// ensuring cannot instantiate
 	private FileUtils(){}
@@ -155,6 +162,225 @@ public class FileUtils {
 	}
 	
 	/**
+	 * Set attributes for a file.
+	 * @author Crow
+	 * @date 2015年9月7日
+	 * @param file
+	 * @param attr
+	 * @throws IOException 
+	 */
+	public static void setAttribute(File file, String attr) throws IOException{
+		String param = null;
+		switch (attr) {
+		case READ_ONLY:
+			param = "+R";
+			break;
+		case CAN_WRITE:
+			param = "-R";
+			break;
+		case HIDDEN:
+			param = "+H";
+			break;
+		case VISIBLE:
+			param = "-H";
+			break;
+		default:
+			throw new IOException("Wrong param.");
+		}
+		String cmd = "attrib \"" + file.getAbsolutePath().toString() + "\" " + param;
+		
+		Runtime.getRuntime().exec(cmd);
+	}
+	
+	/**
+	 * Just copy a file.
+	 * @author Crow
+	 * @date 2015年9月2日
+	 * @param sourceFile the original file.
+	 * @param targetFile the new generated file.
+	 * @throws IOException 
+	 */
+	public static void copyFile(File sourceFile, File targetFile) throws IOException{
+		copy(sourceFile, targetFile, false, false);
+	}
+	
+	/**
+	 * Copy a file, and you can decide whether to overwrite the target file.
+	 * @author Crow
+	 * @date 2015年9月2日
+	 * @param sourceFile the original file.
+	 * @param targetFile the new generated file.
+	 * @param overwrite if true, and if the target file already exist, then overwrite it.
+	 * @throws IOException 
+	 */
+	public static void copyFile(File sourceFile, File targetFile, boolean overwrite) throws IOException{
+		copy(sourceFile, targetFile, true, false);
+	}
+	
+	/**
+	 * Copy a file or folder.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 */
+	public static void copy(File sourceFile, File targetFile){
+		
+	}
+	
+	/**
+	 * Copy a file or folder, and you can decide whether to overwrite the target file.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 * @param overwrite
+	 */
+	public static void copy(File sourceFile, File targetFile, boolean overwrite){
+		
+	}
+	
+	/**
+	 * Just move a file.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 * @throws IOException 
+	 */
+	public static void moveFile(File sourceFile, File targetFile) throws IOException{
+		copy(sourceFile, targetFile, false, true);
+	}
+	
+	/**
+	 * Just move a file, and you can decide whether to overwrite the target file.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 * @param overwrite
+	 * @throws IOException 
+	 */
+	public static void moveFile(File sourceFile, File targetFile, boolean overwrite) throws IOException{
+		copy(sourceFile, targetFile, overwrite, true);
+	}
+	
+	/**
+	 * Move a file or folder.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 */
+	public static void move(File sourceFile, File targetFile){
+		
+	}
+	
+	/**
+	 * Move a file or folder, and you can decide whether to overwrite the target file.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 * @param overwrite
+	 */
+	public static void move(File sourceFile, File targetFile, boolean overwrite){
+		
+	}
+	
+	/**
+	 * Copy a file or folder.
+	 * 
+	 * 检测时文件或文件夹
+	 * 如果是文件，更新sourceFile和targetFile，复制
+	 * 如果是文件夹，更新两个file变量值，创建文件夹
+	 * 
+	 * @author Crow
+	 * @date 2015年6月17日
+	 * @version v0.3
+	 * @param sourceFile the original file.
+	 * @param targetFile the new generated file.
+	 * @param overwrite if true, and if the target file already exist, then overwrite it.
+	 * @param deleteSourceFile if true, delete the source file after it has been copied.
+	 * @throws IOException 
+	 */
+	public static void copy(File sourceFile, File targetFile, boolean overwrite, boolean deleteSourceFile) throws IOException{
+		String sourceFileName = sourceFile.getName();
+		if(!sourceFile.exists()){
+			throw new FileNotFoundException("File " + sourceFileName + " not found.");
+		}
+		if(!sourceFile.canRead()){
+			throw new IOException("File " + sourceFileName + "can not be read.");
+		}
+		
+		// 如果目标文件是文件夹，并且重名，在overwrite为false的情况下所有文件都不能复制
+		if(!overwrite && targetFile.exists()){
+			throw new FileAlreadyExistsException("File " + targetFile.getName() + 
+					" already exist, unable to overwrite it. "
+					+ "So if you want to overwrite it, "
+					+ "please set the \"overwrite\" property value is true.");
+		}
+		
+		/*
+		 * 如果原文件是文件夹，递归；
+		 * 如果原文件是文件，复制。
+		 */
+		if(sourceFile.isDirectory()){
+			// 创建目标文件夹
+			targetFile.mkdirs();
+			// 更新file变量
+			File tSourceFile = null;
+			File tTargetFile = null;
+			File[] fileList = sourceFile.listFiles();
+			for(File file : fileList){
+				tSourceFile = file;
+				if(file.isDirectory()){
+					String tTargetFileName = PathUtils.getDirPath(targetFile.getAbsolutePath().toString(), file.getName());
+					tTargetFile = new File(tTargetFileName);
+				}else{
+					String tTargetFileName = PathUtils.getFilePath(file.getName(), targetFile.getAbsolutePath().toString());
+					tTargetFile = new File(tTargetFileName);
+				}
+				
+				copy(tSourceFile, tTargetFile, true, false);
+			}
+		}else{
+			// 执行复制操作
+			FileInputStream fis = null;
+			FileOutputStream fos = null;
+			try {
+				fis = new FileInputStream(sourceFile);
+				fos = new FileOutputStream(targetFile);
+				copy(fis, fos);
+				fos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(fos != null){
+						fos.close();
+					}
+					if(fis != null){
+						fis.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// 判断并设置隐藏属性
+		if(sourceFile.isHidden()){
+			setAttribute(targetFile, HIDDEN);
+		}
+		
+		// 判断并删除原文件
+		if(deleteSourceFile){
+			delete(sourceFile, true);
+		}
+	}
+	
+	/**
 	 * Copy data from input stream to output stream.
 	 * @author Crow
 	 * @date 2015年9月2日
@@ -174,45 +400,7 @@ public class FileUtils {
 	}
 	
 	/**
-	 * Copy a file.
-	 * @author Crow
-	 * @date 2015年6月17日
-	 * @version v0.1
-	 * @param sourceFile the original file.
-	 * @param targetFile the new generated file.
-	 */
-	public static void copyFile(File sourceFile, File targetFile){
-		FileInputStream fis = null;
-		FileOutputStream fos = null;
-		try {
-			 fis = new FileInputStream(sourceFile);
-			 fos = new FileOutputStream(targetFile);
-			 byte[] buffer = new byte[BUFFER_SIZE];
-			 int length = 0;
-			 while((length = fis.read(buffer)) != -1){
-				 fos.write(buffer, 0, length);
-			 }
-			 fos.flush();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(fos != null){
-					fos.close();
-				}
-				if(fis != null){
-					fis.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * Delete file.
+	 * Delete file or folder.
 	 * @author Crow
 	 * @date 2015年6月17日
 	 * @version v0.2

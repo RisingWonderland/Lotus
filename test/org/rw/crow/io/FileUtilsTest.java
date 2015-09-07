@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -95,8 +94,29 @@ public class FileUtilsTest {
 	}
 
 	@Test
-	public void testCopyFile() {
-		fail("Not yet implemented");
+	public void testCopyFile() throws IOException {
+		String licensePath = PathUtils.getFilePath("LICENSE", new File("").getAbsolutePath().toString());
+		File license = new File(licensePath);
+		File targetFile = new File("E:/license.txt");
+		
+		FileUtils.copyFile(license, targetFile, true);
+	}
+	
+	@Test
+	public void testMoveFile() throws IOException {
+		File sourceFile = new File("E:/guide.txt");
+		File targetFile = new File("F:/guide.txt");
+		
+		FileUtils.moveFile(sourceFile, targetFile, true);
+	}
+	
+	@Test
+	public void testMove() throws IOException{
+		// 测试移动文件夹
+		File sourceFile = new File("E:/J2EE_Servlet");
+		File targetFile = new File("F:/J2EE_Servlet");
+		
+		FileUtils.copy(sourceFile, targetFile, true, false);
 	}
 
 	@Test
