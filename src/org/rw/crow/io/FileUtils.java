@@ -127,7 +127,7 @@ public class FileUtils {
 	 * @param file
 	 * @return
 	 */
-	public static String readEntrieFile(File file){
+	public static String readTextFile(File file){
 		CheckValid.checkNotDocument(file);
 		if(!CheckValid.checkIsDocument(file)) return "";
 		
@@ -271,9 +271,10 @@ public class FileUtils {
 	 * @date 2015年9月6日
 	 * @param sourceFile
 	 * @param targetFile
+	 * @throws IOException 
 	 */
-	public static void move(File sourceFile, File targetFile){
-		
+	public static void move(File sourceFile, File targetFile) throws IOException{
+		copy(sourceFile, targetFile, false, true);
 	}
 	
 	/**
@@ -283,9 +284,10 @@ public class FileUtils {
 	 * @param sourceFile
 	 * @param targetFile
 	 * @param overwrite
+	 * @throws IOException 
 	 */
-	public static void move(File sourceFile, File targetFile, boolean overwrite){
-		
+	public static void move(File sourceFile, File targetFile, boolean overwrite) throws IOException{
+		copy(sourceFile, targetFile, overwrite, true);
 	}
 	
 	/**

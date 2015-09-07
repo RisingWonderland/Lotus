@@ -116,7 +116,8 @@ public class FileUtilsTest {
 		File sourceFile = new File("E:/J2EE_Servlet");
 		File targetFile = new File("F:/J2EE_Servlet");
 		
-		FileUtils.copy(sourceFile, targetFile, true, false);
+//		FileUtils.copy(sourceFile, targetFile, true, false);
+		FileUtils.move(sourceFile, targetFile, true);
 	}
 
 	@Test
