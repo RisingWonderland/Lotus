@@ -11,6 +11,51 @@ import java.io.File;
 public class PathUtils {
 	
 	private static final String SEPARATOR = File.separator;
+	public static final char SLASH = '/';
+	public static final char BACKSLASH = '\\';
+	
+	
+	/**
+	 * Unify separator into slash of the path string.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param path
+	 * @return
+	 */
+	public static String unifySeparator(String path){
+		return unifySeparator(path, SLASH);
+	}
+	
+	/**
+	 * Unify separator into backslash of the path string.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param path
+	 * @return
+	 */
+	public static String unifySeparatorReverse(String path){
+		return unifySeparator(path, BACKSLASH);
+	}
+	
+	/**
+	 * Unify separator of the path string, you can set the target separator.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param path
+	 * @param separator
+	 * @return
+	 */
+	private static String unifySeparator(String path, char separator){
+		path = path.trim().replaceAll("\"", "");
+		
+		if(separator == SLASH){
+			path = path.replaceAll("\\\\", "/");
+		}else if(separator == BACKSLASH){
+			path = path.replaceAll("/", "\\\\");
+		}
+		
+		return path;
+	}
 	
 	/**
 	 * 根据接收到的字符串，拼接出合法的目录路径，
@@ -31,7 +76,6 @@ public class PathUtils {
 	 * 去除以下非法字符：
 	 * 英文引号
 	 * 如何判断应该去除哪些中文引号？
-	 * 前置正反斜杠
 	 * 
 	 * 归正以下字符：
 	 * 斜杠

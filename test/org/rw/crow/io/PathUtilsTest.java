@@ -32,6 +32,15 @@ public class PathUtilsTest {
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	
+	@Test
+	public void testUnifySeparator(){
+		String path1 = "C:\\\"Workspaces\"\\MyEclipse Professional 2014\\Lotus";
+//		String path2 = "C:/Workspaces/MyEclipse Professional 2014/Lotus";
+		System.out.println(PathUtils.unifySeparator(path1));
+//		System.out.println(PathUtils.unifySeparator(path2, PathUtils.BACKSLASH));
+	}
 
 	@Test
 	public void testGetDirPath() {
