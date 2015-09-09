@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,6 +17,8 @@ import java.nio.file.FileAlreadyExistsException;
 
 import org.rw.crow.commons.PathUtils;
 import org.rw.crow.regular.CheckValid;
+
+import com.sun.net.ssl.internal.www.protocol.https.Handler;
 
 /**
  * Provides some methods for manipulate files.
@@ -33,6 +36,7 @@ public class FileUtils {
 	private final static String CAN_WRITE = "canWrite";
 	private final static String HIDDEN = "hidden";
 	private final static String VISIBLE = "visible";
+	
 
 	// ensuring cannot instantiate
 	private FileUtils(){}
@@ -54,6 +58,54 @@ public class FileUtils {
 				iterateDir(file);
 			}
 		}
+	}
+	
+	/**
+	 * Check whether the directory is empty.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param file the directory to be checked
+	 * @throws IOException 
+	 */
+	public static boolean isDirEmpty(File file) throws IOException {
+		String fileName = file.getName();
+		if(!file.exists()){
+			throw new FileNotFoundException("File " + fileName + " not found.");
+		}
+		if(!file.canRead()){
+			throw new IOException("File " + fileName + "can not be read.");
+		}
+		
+		if(file.listFiles().length == 0){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Check whether only the files within the directory.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param file
+	 * @return
+	 * @throws IOException 
+	 */
+	public static boolean isDirWithoutDir(File file) throws IOException{
+		String fileName = file.getName();
+		if(!file.exists()){
+			throw new FileNotFoundException("File " + fileName + " not found.");
+		}
+		if(!file.canRead()){
+			throw new IOException("File " + fileName + "can not be read.");
+		}
+		
+		File[] files = file.listFiles();
+		for(File tFile : files){
+			if(tFile.isDirectory()){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -162,6 +214,160 @@ public class FileUtils {
 	}
 	
 	/**
+	 * Get the first line content of the file.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param file
+	 * @return
+	 */
+	public static String readFirstLine(File file){
+		String firstLine = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			firstLine = br.readLine();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(br != null){
+					br.close();
+				}
+				if(fr != null){
+					fr.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return firstLine;
+	}
+	
+	/**
+	 * Get the first line of the file which line is not empty string.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param file
+	 * @return
+	 */
+	public static String readFirstNonEmptyLine(File file){
+		String firstLine = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			firstLine = br.readLine();
+			while(firstLine != null){
+				if(!firstLine.equals("")){
+					return firstLine;
+				}
+				firstLine = br.readLine();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(br != null){
+					br.close();
+				}
+				if(fr != null){
+					fr.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return firstLine;
+	}
+	
+	/**
+	 * Get the last line of the file.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param file
+	 * @return
+	 */
+	public static String readLastLine(File file){
+		String lastLine = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			String line = null;
+			while((line = br.readLine()) != null){
+				lastLine = line;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(br != null){
+					br.close();
+				}
+				if(fr != null){
+					fr.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return lastLine;
+	}
+	
+	/**
+	 * Get the last line of the file which line is not empty string.
+	 * @author Crow
+	 * @date 2015年9月9日
+	 * @param file
+	 * @return
+	 */
+	public static String readLastNonEmptyLine(File file){
+		String lastLine = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			String line = null;
+			while((line = br.readLine()) != null){
+				if(!line.equals("")){
+					lastLine = line;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(br != null){
+					br.close();
+				}
+				if(fr != null){
+					fr.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return lastLine;
+	}
+	
+	/**
 	 * Set attributes for a file.
 	 * @author Crow
 	 * @date 2015年9月7日
@@ -192,30 +398,6 @@ public class FileUtils {
 		Runtime.getRuntime().exec(cmd);
 	}
 	
-	/**
-	 * Just copy a file.
-	 * @author Crow
-	 * @date 2015年9月2日
-	 * @param sourceFile the original file.
-	 * @param targetFile the new generated file.
-	 * @throws IOException 
-	 */
-	public static void copyFile(File sourceFile, File targetFile) throws IOException{
-		copy(sourceFile, targetFile, false, false);
-	}
-	
-	/**
-	 * Copy a file, and you can decide whether to overwrite the target file.
-	 * @author Crow
-	 * @date 2015年9月2日
-	 * @param sourceFile the original file.
-	 * @param targetFile the new generated file.
-	 * @param overwrite if true, and if the target file already exist, then overwrite it.
-	 * @throws IOException 
-	 */
-	public static void copyFile(File sourceFile, File targetFile, boolean overwrite) throws IOException{
-		copy(sourceFile, targetFile, true, false);
-	}
 	
 	/**
 	 * Copy a file or folder.
@@ -223,9 +405,10 @@ public class FileUtils {
 	 * @date 2015年9月6日
 	 * @param sourceFile
 	 * @param targetFile
+	 * @throws IOException 
 	 */
-	public static void copy(File sourceFile, File targetFile){
-		
+	public static void copy(File sourceFile, File targetFile) throws IOException{
+		copy(sourceFile, targetFile, false, false);
 	}
 	
 	/**
@@ -235,59 +418,10 @@ public class FileUtils {
 	 * @param sourceFile
 	 * @param targetFile
 	 * @param overwrite
-	 */
-	public static void copy(File sourceFile, File targetFile, boolean overwrite){
-		
-	}
-	
-	/**
-	 * Just move a file.
-	 * @author Crow
-	 * @date 2015年9月6日
-	 * @param sourceFile
-	 * @param targetFile
 	 * @throws IOException 
 	 */
-	public static void moveFile(File sourceFile, File targetFile) throws IOException{
-		copy(sourceFile, targetFile, false, true);
-	}
-	
-	/**
-	 * Just move a file, and you can decide whether to overwrite the target file.
-	 * @author Crow
-	 * @date 2015年9月6日
-	 * @param sourceFile
-	 * @param targetFile
-	 * @param overwrite
-	 * @throws IOException 
-	 */
-	public static void moveFile(File sourceFile, File targetFile, boolean overwrite) throws IOException{
-		copy(sourceFile, targetFile, overwrite, true);
-	}
-	
-	/**
-	 * Move a file or folder.
-	 * @author Crow
-	 * @date 2015年9月6日
-	 * @param sourceFile
-	 * @param targetFile
-	 * @throws IOException 
-	 */
-	public static void move(File sourceFile, File targetFile) throws IOException{
-		copy(sourceFile, targetFile, false, true);
-	}
-	
-	/**
-	 * Move a file or folder, and you can decide whether to overwrite the target file.
-	 * @author Crow
-	 * @date 2015年9月6日
-	 * @param sourceFile
-	 * @param targetFile
-	 * @param overwrite
-	 * @throws IOException 
-	 */
-	public static void move(File sourceFile, File targetFile, boolean overwrite) throws IOException{
-		copy(sourceFile, targetFile, overwrite, true);
+	public static void copy(File sourceFile, File targetFile, boolean overwrite) throws IOException{
+		copy(sourceFile, targetFile, true, false);
 	}
 	
 	/**
@@ -401,6 +535,32 @@ public class FileUtils {
 		}
 	}
 	
+	
+	/**
+	 * Move a file or folder.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 * @throws IOException 
+	 */
+	public static void move(File sourceFile, File targetFile) throws IOException{
+		copy(sourceFile, targetFile, false, true);
+	}
+	
+	/**
+	 * Move a file or folder, and you can decide whether to overwrite the target file.
+	 * @author Crow
+	 * @date 2015年9月6日
+	 * @param sourceFile
+	 * @param targetFile
+	 * @param overwrite
+	 * @throws IOException 
+	 */
+	public static void move(File sourceFile, File targetFile, boolean overwrite) throws IOException{
+		copy(sourceFile, targetFile, overwrite, true);
+	}
+	
 	/**
 	 * Delete file or folder.
 	 * @author Crow
@@ -428,5 +588,36 @@ public class FileUtils {
 		}
 		
 		return file.delete();
+	}
+	
+	/**
+	 * Clear all file and folder inner the folder.
+	 * @author Crow
+	 * @date 2015年9月7日
+	 * @param file
+	 * @return
+	 */
+	public static boolean clearFoler(File file){
+		if(delete(file, true)){
+			return file.mkdirs();
+		}
+		return false;
+	}
+	
+	/**
+	 * Delete all file in the folder.
+	 * @author Crow
+	 * @date 2015年9月7日
+	 * @param file
+	 */
+	public static void clearAllFileInFolder(File file){
+		if(file.isDirectory()){
+			File[] files = file.listFiles();
+			for(File tFile : files){
+				clearAllFileInFolder(tFile);
+			}
+		}else{
+			file.delete();
+		}
 	}
 }

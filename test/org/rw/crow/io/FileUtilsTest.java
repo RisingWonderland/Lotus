@@ -43,7 +43,7 @@ public class FileUtilsTest {
 	public void testIterateDir() {
 		fail("Not yet implemented");
 	}
-
+	
 	@Test
 	public void testWriteFileObject() {
 		fail("Not yet implemented");
@@ -62,6 +62,30 @@ public class FileUtilsTest {
 	@Test
 	public void testReadEntrieFile() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testReadFirstLine(){
+		String firstLine = FileUtils.readFirstLine(new File("E:/guide.txt"));
+		System.out.println(firstLine);
+	}
+	
+	@Test
+	public void testReadFirstNonEmptyLine(){
+		String firstLine = FileUtils.readFirstNonEmptyLine(new File("E:/guide.txt"));
+		System.out.println(firstLine);
+	}
+	
+	@Test
+	public void testReadLastLine(){
+		String lastLine = FileUtils.readLastLine(new File("E:/guide.txt"));
+		System.out.println(lastLine);
+	}
+	
+	@Test
+	public void testReadLastNonEmptyLine(){
+		String lastLine = FileUtils.readLastNonEmptyLine(new File("E:/guide.txt"));
+		System.out.println(lastLine);
 	}
 
 	@Test
@@ -99,7 +123,7 @@ public class FileUtilsTest {
 		File license = new File(licensePath);
 		File targetFile = new File("E:/license.txt");
 		
-		FileUtils.copyFile(license, targetFile, true);
+		FileUtils.copy(license, targetFile, true);
 	}
 	
 	@Test
@@ -107,7 +131,7 @@ public class FileUtilsTest {
 		File sourceFile = new File("E:/guide.txt");
 		File targetFile = new File("F:/guide.txt");
 		
-		FileUtils.moveFile(sourceFile, targetFile, true);
+		FileUtils.move(sourceFile, targetFile, true);
 	}
 	
 	@Test
@@ -123,6 +147,17 @@ public class FileUtilsTest {
 	@Test
 	public void testDelete() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testClearFoler() {
+		boolean result = FileUtils.clearFoler(new File("F:/J2EE_Servlet"));
+		System.out.println(result);
+	}
+	
+	@Test
+	public void testClearFileInFolder() {
+		FileUtils.clearAllFileInFolder(new File("F:/J2EE_Servlet"));
 	}
 
 }
