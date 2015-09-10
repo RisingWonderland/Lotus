@@ -45,6 +45,11 @@ public class FileUtilsTest {
 	}
 	
 	@Test
+	public void testCheckIsDirEmpty(){
+		
+	}
+	
+	@Test
 	public void testWriteFileObject() {
 		fail("Not yet implemented");
 	}
@@ -57,6 +62,12 @@ public class FileUtilsTest {
 	@Test
 	public void testWriteFileObjectCharsetBoolean() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testWritePreviousAppend() {
+		File file = new File("E:/guide.txt");
+		FileUtils.writePreviousAppend(file, "I want this paragraph of text.");
 	}
 
 	@Test

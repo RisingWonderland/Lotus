@@ -18,8 +18,6 @@ import java.nio.file.FileAlreadyExistsException;
 import org.rw.crow.commons.PathUtils;
 import org.rw.crow.regular.CheckValid;
 
-import com.sun.net.ssl.internal.www.protocol.https.Handler;
-
 /**
  * Provides some methods for manipulate files.
  * 
@@ -68,13 +66,7 @@ public class FileUtils {
 	 * @throws IOException 
 	 */
 	public static boolean isDirEmpty(File file) throws IOException {
-		String fileName = file.getName();
-		if(!file.exists()){
-			throw new FileNotFoundException("File " + fileName + " not found.");
-		}
-		if(!file.canRead()){
-			throw new IOException("File " + fileName + "can not be read.");
-		}
+		CheckValid.checkFileCanRead(file);
 		
 		if(file.listFiles().length == 0){
 			return true;
@@ -91,13 +83,7 @@ public class FileUtils {
 	 * @throws IOException 
 	 */
 	public static boolean isDirWithoutDir(File file) throws IOException{
-		String fileName = file.getName();
-		if(!file.exists()){
-			throw new FileNotFoundException("File " + fileName + " not found.");
-		}
-		if(!file.canRead()){
-			throw new IOException("File " + fileName + "can not be read.");
-		}
+		CheckValid.checkFileCanRead(file);
 		
 		File[] files = file.listFiles();
 		for(File tFile : files){
@@ -172,6 +158,25 @@ public class FileUtils {
 	}
 	
 	/**
+	 * Appends content to the front of a file.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param file
+	 * @param content
+	 * @return
+	 */
+	public static boolean writePreviousAppend(File file, Object content){
+		// 获取原文件内容
+		String sourceContent = readTextFile(file);
+		String result = content.toString() + "\r\n" + sourceContent;
+		
+		// 向目标文件覆写内容
+		write(file, result, false);
+		
+		return false;
+	}
+	
+	/**
 	 * Read all the contents of a text file.
 	 * @author Crow
 	 * @date 2015年5月25日
@@ -180,8 +185,13 @@ public class FileUtils {
 	 * @return
 	 */
 	public static String readTextFile(File file){
-		CheckValid.checkNotDocument(file);
-		if(!CheckValid.checkIsDocument(file)) return "";
+		try {
+			CheckValid.checkNotDocument(file);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			
+			return "";
+		}
 		
 		StringBuilder sbd = new StringBuilder();
 		InputStream is = null;
@@ -202,9 +212,7 @@ public class FileUtils {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(is != null){
-					is.close();
-				}
+				if(is != null) is.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -275,12 +283,8 @@ public class FileUtils {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(br != null){
-					br.close();
-				}
-				if(fr != null){
-					fr.close();
-				}
+				if(br != null) br.close();
+				if(fr != null) fr.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -313,12 +317,8 @@ public class FileUtils {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(br != null){
-					br.close();
-				}
-				if(fr != null){
-					fr.close();
-				}
+				if(br != null) br.close();
+				if(fr != null) fr.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -353,12 +353,8 @@ public class FileUtils {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(br != null){
-					br.close();
-				}
-				if(fr != null){
-					fr.close();
-				}
+				if(br != null) br.close();
+				if(fr != null) fr.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -441,13 +437,7 @@ public class FileUtils {
 	 * @throws IOException 
 	 */
 	public static void copy(File sourceFile, File targetFile, boolean overwrite, boolean deleteSourceFile) throws IOException{
-		String sourceFileName = sourceFile.getName();
-		if(!sourceFile.exists()){
-			throw new FileNotFoundException("File " + sourceFileName + " not found.");
-		}
-		if(!sourceFile.canRead()){
-			throw new IOException("File " + sourceFileName + "can not be read.");
-		}
+		CheckValid.checkFileCanRead(sourceFile);
 		
 		// 如果目标文件是文件夹，并且重名，在overwrite为false的情况下所有文件都不能复制
 		if(!overwrite && targetFile.exists()){
