@@ -58,6 +58,44 @@ public class PathUtils {
 	}
 	
 	/**
+	 * Make sure that the path not end with a slash.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param path
+	 * @return
+	 */
+	public static String pathNotEndWithSlash(String path){
+		return unifySeparator(path).replaceAll("/$", "");
+	}
+	
+	/**
+	 * Make sure that the path end with a slash.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param path
+	 * @return
+	 */
+	public static String pathEndWithSlash(String path){
+		return pathNotEndWithSlash(path) + SLASH;
+	}
+	
+	
+	/**
+	 * Get the parent path of a file.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param path
+	 * @return
+	 */
+	public static String getParentPath(String path){
+		String parentPath = null;
+		File file = new File(path);
+		parentPath = file.getParent();
+		
+		return parentPath;
+	}
+	
+	/**
 	 * 根据接收到的字符串，拼接出合法的目录路径，
 	 * 该路径不处理文件名，参数中不要包含它。
 	 * @author Crow
@@ -115,6 +153,30 @@ public class PathUtils {
 		}
 		
 		return sb.toString();
+	}
+	
+	/**
+	 * Remove the suffixes of a file name.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param fileName
+	 * @return
+	 */
+	public static String removeFileNameSuffixes(String fileName){
+		return fileName.substring(0, fileName.lastIndexOf("."));
+	}
+	
+	/**
+	 * Get the file name without suffixes from a path.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param path
+	 * @return
+	 */
+	public static String getPlainFileName(String path){
+		path = unifySeparator(path);
+		
+		return path.substring(path.lastIndexOf(SLASH) + 1, path.lastIndexOf("."));
 	}
 	
 }

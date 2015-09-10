@@ -1,6 +1,8 @@
 package org.rw.crow.io;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.io.File;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,7 +43,31 @@ public class PathUtilsTest {
 		System.out.println(PathUtils.unifySeparator(path1));
 //		System.out.println(PathUtils.unifySeparator(path2, PathUtils.BACKSLASH));
 	}
-
+	
+	@Test
+	public void testPathNotEndWithSlash(){
+		String path1 = "C:/Workspaces/MyEclipse Professional 2014/Lotus/";
+		System.out.println(PathUtils.pathNotEndWithSlash(path1));
+	}
+	
+	@Test
+	public void testPathEndWithSlash(){
+		String path1 = "C:/Workspaces/MyEclipse Professional 2014/Lotus";
+		String path2 = "C:/Workspaces/MyEclipse Professional 2014/Lotus/";
+		String path3 = "C:/Workspaces/MyEclipse Professional 2014/Lotus/README.md";
+		System.out.println(PathUtils.pathEndWithSlash(path1));
+		System.out.println(PathUtils.pathEndWithSlash(path2));
+		System.out.println(PathUtils.pathEndWithSlash(path3));
+	}
+	
+	@Test
+	public void testGetFileName(){
+		String path = "C:/Workspaces/MyEclipse Professional 2014/Lotus/README.md";
+		File file = new File(path);
+		String fileName = file.getName();
+		System.out.println(fileName);
+	}
+	
 	@Test
 	public void testGetDirPath() {
 		fail("Not yet implemented");
@@ -54,6 +80,19 @@ public class PathUtilsTest {
 			"alice/kepler/", 
 			"galileo");
 		System.out.println(path);
+	}
+	
+	@Test
+	public void testRemoveFileNameSuffixes(){
+		System.out.println(PathUtils.removeFileNameSuffixes("README.md"));
+	}
+	
+	@Test
+	public void testGetPlainFileName(){
+		String path1 = "C:/Workspaces/MyEclipse Professional 2014/Lotus/";
+		String path2 = "C:/Workspaces/MyEclipse Professional 2014/Lotus/README.md";
+//		System.out.println(PathUtils.getPlainFileName(path1));
+		System.out.println(PathUtils.getPlainFileName(path2));
 	}
 
 }
