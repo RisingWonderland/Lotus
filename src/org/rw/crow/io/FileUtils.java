@@ -95,6 +95,32 @@ public class FileUtils {
 	}
 	
 	/**
+	 * Make the parent directory.
+	 * @author Crow
+	 * @date 2015年9月11日
+	 * @param file
+	 * @return parent directory path string
+	 */
+	public static String mkParentDirs(File file){
+		File parent = file.getParentFile();
+		if(parent != null && !parent.exists()){
+			parent.mkdirs();
+		}
+		return parent.getAbsolutePath().toString();
+	}
+	
+	/**
+	 * Make the parent directory.
+	 * @author Crow
+	 * @date 2015年9月11日
+	 * @param path
+	 * @return parent directory path string.
+	 */
+	public static String mkParentDirs(String path){
+		return mkParentDirs(new File(path));
+	}
+	
+	/**
 	 * Writes string content to append to a file.
 	 * @author Crow
 	 * @date 2015年5月25日
@@ -595,7 +621,7 @@ public class FileUtils {
 	}
 	
 	/**
-	 * Delete all file in the folder.
+	 * Delete all files in the folder.
 	 * @author Crow
 	 * @date 2015年9月7日
 	 * @param file
@@ -609,5 +635,27 @@ public class FileUtils {
 		}else{
 			file.delete();
 		}
+	}
+	
+	/**
+	 * Delete all files in the first level folder, if the file object is a file, delete it.
+	 * If any file delete failed, then return false and method stop running.
+	 * @author Crow
+	 * @date 2015年9月11日
+	 * @param file
+	 * @return
+	 */
+	public static boolean clearAllFileInFirstLevelFolder(File file){
+		if(file.isDirectory()){
+			File[] files = file.listFiles();
+			for(File tFile : files){
+				if(tFile.isFile()){
+					if(!tFile.delete()) return false;
+				}
+			}
+		}else{
+			file.delete();
+		}
+		return true;
 	}
 }

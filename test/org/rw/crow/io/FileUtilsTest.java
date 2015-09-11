@@ -170,5 +170,11 @@ public class FileUtilsTest {
 	public void testClearFileInFolder() {
 		FileUtils.clearAllFileInFolder(new File("F:/J2EE_Servlet"));
 	}
+	
+	@Test
+	public void testClearAllFileInFirstLevelFolder() {
+		boolean result = FileUtils.clearAllFileInFirstLevelFolder(new File("F:/J2EE_Servlet"));
+		System.out.println(result);
+	}
 
 }
