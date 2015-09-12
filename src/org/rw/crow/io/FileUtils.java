@@ -28,12 +28,14 @@ import org.rw.crow.regular.CheckValid;
  */
 public class FileUtils {
 	
-	private final static int BUFFER_SIZE = 1024;
+	private static final int BUFFER_SIZE = 1024;
 	// file attributes
-	private final static String READ_ONLY = "readOnly";
-	private final static String CAN_WRITE = "canWrite";
-	private final static String HIDDEN = "hidden";
-	private final static String VISIBLE = "visible";
+	private static final String READ_ONLY = "readOnly";
+	private static final String CAN_WRITE = "canWrite";
+	private static final String HIDDEN = "hidden";
+	private static final String VISIBLE = "visible";
+	
+	private static final Charset UTF8 = Charset.forName("UTF-8");
 	
 
 	// ensuring cannot instantiate
@@ -121,6 +123,150 @@ public class FileUtils {
 	}
 	
 	/**
+	 * Construct a {@link File} object from the collection of path elements.
+	 * From apache.commons.io.FileUtils.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @param paths the elements of file path
+	 * @return
+	 */
+	public static File getFile(String... paths) {
+		if(paths == null){
+			throw new NullPointerException("paths must not be null");
+		}
+		
+		File file = null;
+		for(String path : paths){
+			if(file == null){
+				file = new File(path);
+			}else{
+				file = new File(file, path);
+			}
+		}
+		
+		return file;
+	}
+	
+	/**
+	 * Construct a {@link File} from the collection of path elements.
+	 * From apache.commons.io.FileUtils.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @param dir the parent directory
+	 * @param paths the elements of file path
+	 * @return
+	 */
+	public static File getFile(File dir, String... paths){
+		if(dir == null){
+			throw new NullPointerException("dir must not be null");
+		}
+		if(paths == null){
+			throw new NullPointerException("paths must not be null");
+		}
+		
+		for(String path : paths){
+			dir = new File(dir, path);
+		}
+		return dir;
+	}
+	
+	/**
+	 * Get the path of user's home directory.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @return
+	 */
+	public static String getUserDirPath() {
+		return System.getProperty("user.home");
+	}
+	
+	/**
+	 * Get a {@link File} of user's home directory.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @return
+	 */
+	public static File getUserDirFile() {
+		return new File(getUserDirPath());
+	}
+	
+	/**
+	 * Open and return a {@link FileInputStream} for the target file.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @param file the file to open for input stream
+	 * @return
+	 * @throws IOException
+	 */
+	public static FileInputStream getFileInputStream(File file) throws IOException {
+		CheckValid.checkFileCanRead(file);
+		if(file.isDirectory()){
+			throw new IOException("Wrong, the file is a directory.");
+		}
+		return new FileInputStream(file);
+	}
+	
+	/**
+	 * Open and return a {@link BufferedReader} for the target file.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @param file the file to open for input stream
+	 * @return
+	 * @throws IOException
+	 */
+	public static BufferedReader getBufferedReader(File file) throws IOException {
+		return new BufferedReader(new InputStreamReader(getFileInputStream(file), UTF8));
+	}
+	
+	/**
+	 * Open and return a {@link FileOutputStream} for the target file.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @param file the file to open for output stream
+	 * @param append
+	 * @return
+	 * @throws IOException
+	 */
+	public static FileOutputStream getFileOutputStream(File file, boolean append) throws IOException {
+		// 如果文件存在，判断是否为目录，判断是否可写
+		if(file.exists()){
+			if(file.isDirectory()){
+				throw new IOException("Wrong, the file is a directory.");
+			}
+			if(!file.canWrite()){
+				throw new IOException("Wrong, the file can not be writed.");
+			}
+		}
+		/*
+		 * 如果文件不存在，创建父目录，再判断父目录是否存在
+		 * 注意：父目录可能已经存在，也可能是一个文件而不是目录，需要对此进行判断
+		 */
+		else{
+			File parentFile = file.getParentFile();
+			if(parentFile != null){
+				if(!parentFile.mkdirs() && !parentFile.isDirectory()){
+					throw new IOException("Wrong, the file's parent directory can not be created.");
+				}
+			}
+		}
+		
+		return new FileOutputStream(file, append);
+	}
+	
+	/**
+	 * Open and return a {@link BufferedWriter} for the target file.
+	 * @author Crow
+	 * @date 2015年9月12日
+	 * @param file the file to open for output stream
+	 * @param append
+	 * @return
+	 * @throws IOException
+	 */
+	public static BufferedWriter getBufferedWriter(File file, boolean append) throws IOException {
+		return new BufferedWriter(new OutputStreamWriter(getFileOutputStream(file, append), UTF8));
+	}
+	
+	/**
 	 * Writes string content to append to a file.
 	 * @author Crow
 	 * @date 2015年5月25日
@@ -130,7 +276,7 @@ public class FileUtils {
 	 * @return
 	 */
 	public static boolean write(File file, Object content){
-		return write(file, content, Charset.forName("UTF-8"), true);
+		return write(file, content, UTF8, true);
 	}
 	
 	/**
@@ -143,7 +289,7 @@ public class FileUtils {
 	 * @return
 	 */
 	public static boolean write(File file, Object content, boolean append){
-		return write(file, content, Charset.forName("UTF-8"), append);
+		return write(file, content, UTF8, append);
 	}
 	
 	/**
@@ -225,7 +371,7 @@ public class FileUtils {
 		BufferedReader br = null;
 		try {
 			is = new FileInputStream(file);
-			isr = new InputStreamReader(is, "UTF-8");
+			isr = new InputStreamReader(is, UTF8);
 			br = new BufferedReader(isr);
 			char[] data = new char[BUFFER_SIZE];
 			int len = 0;

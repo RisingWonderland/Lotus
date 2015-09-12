@@ -50,6 +50,19 @@ public class FileUtilsTest {
 	}
 	
 	@Test
+	public void testGetFile() {
+		File file1 = FileUtils.getFile("E:", "J2EE_Servlet", ".git");
+		System.out.println(file1.getAbsolutePath().toString());
+		System.out.println(file1.exists());
+		
+		System.out.println("======================================");
+		
+		File file2 = FileUtils.getFile(new File("E:/J2EE_Servlet"), ".git", "refs", "heads");
+		System.out.println(file2.getAbsolutePath().toString());
+		System.out.println(file2.exists());
+	}
+	
+	@Test
 	public void testWriteFileObject() {
 		fail("Not yet implemented");
 	}
