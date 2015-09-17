@@ -2,6 +2,7 @@ package org.rw.crow.io;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +15,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.FileAlreadyExistsException;
+import java.util.Date;
 
 import org.rw.crow.commons.PathUtils;
 import org.rw.crow.regular.CheckValid;
@@ -94,6 +96,23 @@ public class FileUtils {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Close IO stream safely.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param stream
+	 */
+	public static void closeStream(Closeable stream) {
+		try {
+			if(stream != null) {
+				stream.close();
+			}
+		} catch (IOException e) {
+			System.out.println("Close IO stream failure.");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -189,6 +208,9 @@ public class FileUtils {
 	public static File getUserDirFile() {
 		return new File(getUserDirPath());
 	}
+	
+	
+	
 	
 	/**
 	 * Open and return a {@link FileInputStream} for the target file.
@@ -576,7 +598,7 @@ public class FileUtils {
 	 * @throws IOException 
 	 */
 	public static void copy(File sourceFile, File targetFile) throws IOException{
-		copy(sourceFile, targetFile, false, false);
+		copy(sourceFile, targetFile, false, false, false);
 	}
 	
 	/**
@@ -589,7 +611,7 @@ public class FileUtils {
 	 * @throws IOException 
 	 */
 	public static void copy(File sourceFile, File targetFile, boolean overwrite) throws IOException{
-		copy(sourceFile, targetFile, true, false);
+		copy(sourceFile, targetFile, true, false, false);
 	}
 	
 	/**
@@ -608,7 +630,7 @@ public class FileUtils {
 	 * @param deleteSourceFile if true, delete the source file after it has been copied.
 	 * @throws IOException 
 	 */
-	public static void copy(File sourceFile, File targetFile, boolean overwrite, boolean deleteSourceFile) throws IOException{
+	public static void copy(File sourceFile, File targetFile, boolean overwrite, boolean deleteSourceFile, boolean retainFileDate) throws IOException{
 		CheckValid.checkFileCanRead(sourceFile);
 		
 		// 如果目标文件是文件夹，并且重名，在overwrite为false的情况下所有文件都不能复制
@@ -640,7 +662,7 @@ public class FileUtils {
 					tTargetFile = new File(tTargetFileName);
 				}
 				
-				copy(tSourceFile, tTargetFile, true, false);
+				copy(tSourceFile, tTargetFile, overwrite, deleteSourceFile, retainFileDate);
 			}
 		}else{
 			// 执行复制操作
@@ -665,6 +687,11 @@ public class FileUtils {
 					e.printStackTrace();
 				}
 			}
+		}
+		
+		// 判断并设置文件修改时间
+		if(retainFileDate) {
+			targetFile.setLastModified(sourceFile.lastModified());
 		}
 		
 		// 判断并设置隐藏属性
@@ -707,7 +734,7 @@ public class FileUtils {
 	 * @throws IOException 
 	 */
 	public static void move(File sourceFile, File targetFile) throws IOException{
-		copy(sourceFile, targetFile, false, true);
+		copy(sourceFile, targetFile, false, true, false);
 	}
 	
 	/**
@@ -720,7 +747,7 @@ public class FileUtils {
 	 * @throws IOException 
 	 */
 	public static void move(File sourceFile, File targetFile, boolean overwrite) throws IOException{
-		copy(sourceFile, targetFile, overwrite, true);
+		copy(sourceFile, targetFile, overwrite, true, false);
 	}
 	
 	/**
@@ -803,5 +830,61 @@ public class FileUtils {
 			file.delete();
 		}
 		return true;
+	}
+	
+	/**
+	 * Compare two files modified date.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param file1
+	 * @param file2
+	 * @return if 1, then file1 is newer; 
+	 * else if -1, then file2 is newer; 
+	 * else if 0, then they are the same date.
+	 */
+	public static int compareFileDate(File file1, File file2) {
+		return compareFileDate(file1, file2);
+	}
+	
+	/**
+	 * Compare two files modified date.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param file1
+	 * @param date
+	 * @return if 1, then file1 is newer; 
+	 * else if -1, then file2 is newer; 
+	 * else if 0, then they are the same date.
+	 */
+	public static int compareFileDate(File file1, Date date) {
+		return compareFileDate(file1, date.getTime());
+	}
+	
+	/**
+	 * Compare two files modified date.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param file1
+	 * @param milliseconds
+	 * @return if 1, then file1 is newer; 
+	 * else if -1, then file2 is newer; 
+	 * else if 0, then they are the same date.
+	 */
+	public static int compareFileDate(File file1, long milliseconds) {
+		if(!CheckValid.checkFileExist(file1)) {
+			try {
+				throw new FileNotFoundException("File " + file1.getName() + "not found.");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(file1.lastModified() > milliseconds) {
+			return 1;
+		}else if(file1.lastModified() < milliseconds) {
+			return -1;
+		}
+		
+		return 0;
 	}
 }

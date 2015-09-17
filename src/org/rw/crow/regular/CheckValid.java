@@ -71,6 +71,24 @@ public class CheckValid {
 	}
 	
 	/**
+	 * Check whether the file is exist.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param file
+	 * @return
+	 */
+	public static boolean checkFileExist(File file) {
+		if(file == null) {
+			throw new IllegalArgumentException("No specified file.");
+		}
+		
+		if(file.exists()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Check whether the file is readable.
 	 * @author Crow
 	 * @date 2015年9月10日
@@ -80,7 +98,7 @@ public class CheckValid {
 	 */
 	public static boolean checkFileCanRead(File file) throws IOException{
 		String fileName = file.getName();
-		if(!file.exists()){
+		if(!checkFileExist(file)){
 			throw new FileNotFoundException("File " + fileName + " not found.");
 		}
 		if(!file.canRead()){
@@ -100,7 +118,7 @@ public class CheckValid {
 	 */
 	public static boolean checkFileCanEdit(File file) throws IOException{
 		String fileName = file.getName();
-		if(!file.exists()){
+		if(!checkFileExist(file)){
 			throw new FileNotFoundException("File " + fileName + " not found.");
 		}
 		if(!file.canWrite()){

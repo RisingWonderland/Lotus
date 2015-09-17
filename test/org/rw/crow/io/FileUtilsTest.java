@@ -38,6 +38,11 @@ public class FileUtilsTest {
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	@Test
+	public void test() {
+		
+	}
 
 	@Test
 	public void testIterateDir() {
