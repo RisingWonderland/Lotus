@@ -13,6 +13,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.rw.crow.commons.MathUtils;
 import org.rw.crow.commons.PathUtils;
 
 /**
@@ -41,7 +42,14 @@ public class FileUtilsTest {
 	
 	@Test
 	public void test() {
+		System.out.println(Math.log(243724599));
+		System.out.println(Math.floor(Math.log(243724599) / Math.log(1024)));
+		System.out.println(Math.pow(1024, Math.floor(Math.log(243724599) / Math.log(1024))));
+		double size = 243724599 / Math.pow(1024, Math.floor(Math.log(243724599) / Math.log(1024)));
+		System.out.println(size);
 		
+		// 保留两位小数
+		System.out.println(MathUtils.precisionTwoplaceDecimal(size));
 	}
 
 	@Test
@@ -52,6 +60,28 @@ public class FileUtilsTest {
 	@Test
 	public void testCheckIsDirEmpty(){
 		
+	}
+	
+	@Test
+	public void testGetSize() {
+		File file = new File("E:/J2EE_Servlet");
+//		File file = new File("E:/MyWorkspace");
+		double size = 0;
+		try {
+			size = FileUtils.getSize(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Size: " + size);
+		System.out.println(FileUtils.sizeAutoConvert(size, 2));
+	}
+	
+	@Test
+	public void testSizeConvert() {
+		double size = 243724599;// unit: B
+		String result = FileUtils.sizeAutoConvert(size, 2);
+		System.out.println(result);
 	}
 	
 	@Test

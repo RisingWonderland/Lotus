@@ -16,7 +16,10 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.Date;
+import java.util.HashMap;
 
+import org.rw.crow.commons.ConstantUtils;
+import org.rw.crow.commons.MathUtils;
 import org.rw.crow.commons.PathUtils;
 import org.rw.crow.regular.CheckValid;
 
@@ -209,8 +212,63 @@ public class FileUtils {
 		return new File(getUserDirPath());
 	}
 	
+	/**
+	 * Get file or folder size.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param file
+	 * @return
+	 * @throws IOException 
+	 */
+	public static long getSize(File file) throws IOException {
+		CheckValid.checkFileCanRead(file);
+		
+		if(file.isDirectory()) {
+			long size = 0;
+			File[] files = file.listFiles();
+			for(File tFile : files) {
+				size += getSize(tFile);
+			}
+			return size;
+		} else {
+			return file.length();
+		}
+	}
+	
+	/**
+	 * File size unit convert.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param size size to convert, byte
+	 * @param digit
+	 * @return
+	 */
+	public static String sizeConvert(double size, int digit) {
+		
+		return null;
+	}
+	
+	/**
+	 * File size unit automatic convert.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param size size to convert, byte
+	 * @param digit digit after dot
+	 * @return
+	 */
+	public static String sizeAutoConvert(double size, int digit) {
+		int base = 1024;// may be 1000
+		int index = (int) Math.floor(Math.log(size) / Math.log(base));
+		size = size / Math.pow(base, Math.floor(Math.log(size) / Math.log(base)));
+		String unit = ConstantUtils.SIZE_UNITS[index];
+		return MathUtils.precisionDecimal(size, digit) + unit;
+	}
 	
 	
+//	public static HashMap<String, Object> sizeAutoConvert(double size, int digit) {
+//		
+//		return null;
+//	}
 	
 	/**
 	 * Open and return a {@link FileInputStream} for the target file.
