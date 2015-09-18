@@ -24,6 +24,8 @@ import org.rw.crow.commons.PathUtils;
  *
  */
 public class FileUtilsTest {
+	
+	private File file = new File("E:/J2EE_Servlet");
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -59,13 +61,32 @@ public class FileUtilsTest {
 	}
 	
 	@Test
+	public void testIsDirAloneDir() throws IOException {
+		System.out.println(FileUtils.isDirAloneDir(file));
+	}
+	
+	@Test
+	public void testStatsFileObjCount() throws IOException {
+		System.out.println(FileUtils.statsFileObjCount(file));
+	}
+	
+	@Test
+	public void testStatsFileCount() throws IOException {
+		System.out.println(FileUtils.statsFileCount(file));
+	}
+	
+	@Test
+	public void testStatsFolderCount() throws IOException {
+		System.out.println(FileUtils.statsFolderCount(file));
+	}
+	
+	@Test
 	public void testCheckIsDirEmpty(){
 		
 	}
 	
 	@Test
 	public void testGetSize() {
-		File file = new File("E:/J2EE_Servlet");
 //		File file = new File("E:/MyWorkspace");
 		double size = 0;
 		try {
@@ -109,7 +130,7 @@ public class FileUtilsTest {
 		
 		System.out.println("======================================");
 		
-		File file2 = FileUtils.getFile(new File("E:/J2EE_Servlet"), ".git", "refs", "heads");
+		File file2 = FileUtils.getFile(file, ".git", "refs", "heads");
 		System.out.println(file2.getAbsolutePath().toString());
 		System.out.println(file2.exists());
 	}

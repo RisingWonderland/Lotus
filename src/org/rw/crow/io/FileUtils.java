@@ -69,13 +69,13 @@ public class FileUtils {
 	 * Check whether the directory is empty.
 	 * @author Crow
 	 * @date 2015年9月9日
-	 * @param file the directory to be checked
+	 * @param directory the directory to be checked
 	 * @throws IOException 
 	 */
-	public static boolean isDirEmpty(File file) throws IOException {
-		CheckValid.checkFileCanRead(file);
+	public static boolean isDirEmpty(File directory) throws IOException {
+		CheckValid.checkFileCanRead(directory);
 		
-		if(file.listFiles().length == 0){
+		if(directory.listFiles().length == 0){
 			return true;
 		}
 		return false;
@@ -85,20 +85,111 @@ public class FileUtils {
 	 * Check whether only the files within the directory.
 	 * @author Crow
 	 * @date 2015年9月9日
-	 * @param file
+	 * @param directory
 	 * @return
 	 * @throws IOException 
 	 */
-	public static boolean isDirWithoutDir(File file) throws IOException{
-		CheckValid.checkFileCanRead(file);
+	public static boolean isDirWithoutDir(File directory) throws IOException{
+		CheckValid.checkFileCanRead(directory);
 		
-		File[] files = file.listFiles();
+		File[] files = directory.listFiles();
 		for(File tFile : files){
 			if(tFile.isDirectory()){
 				return false;
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Check whether only folders with in the directory.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param directory
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean isDirAloneDir(File directory) throws IOException {
+		CheckValid.checkFileCanRead(directory);
+		
+		if(!CheckValid.checkFileIsDirectory(directory)) {
+			throw new IOException("File is not directory: " + directory.getAbsolutePath().toString());
+		}
+		
+		if(statsFileCount(directory) > 0) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Statistics of the number of files and folders.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static int statsFileObjCount(File file) throws IOException {
+		CheckValid.checkFileCanRead(file);
+		
+		if(file.isDirectory()) {
+			int count = 1;
+			File[] files = file.listFiles();
+			for(File tFile : files) {
+				count += statsFileObjCount(tFile);
+			}
+			return count;
+		} else {
+			return 1;
+		}
+	}
+	
+	/**
+	 * Statistics of the number of files.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param file
+	 * @return
+	 * @throws IOException 
+	 */
+	public static int statsFileCount(File file) throws IOException {
+		CheckValid.checkFileCanRead(file);
+		
+		if(file.isDirectory()) {
+			int count = 0;
+			File[] files = file.listFiles();
+			for(File tFile : files) {
+				count += statsFileCount(tFile);
+			}
+			return count;
+		} else {
+			return 1;
+		}
+	}
+	
+	/**
+	 * Statistics of the number of the folders, include the specified folder itself.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param directory
+	 * @return number of the folders, include the specified folder itself.
+	 * @throws IOException
+	 */
+	public static int statsFolderCount(File directory) throws IOException {
+		CheckValid.checkFileCanRead(directory);
+		
+		if(directory.isDirectory()) {
+			int count = 1;
+			File[] files = directory.listFiles();
+			for(File tFile : files) {
+				count += statsFolderCount(tFile);
+			}
+			return count;
+		}
+		
+		return 0;
 	}
 	
 	/**

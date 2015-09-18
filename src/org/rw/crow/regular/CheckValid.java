@@ -128,4 +128,22 @@ public class CheckValid {
 		return true;
 	}
 	
+	/**
+	 * Check whether the file is directory.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean checkFileIsDirectory(File file) throws IOException {
+		checkFileCanRead(file);
+		
+		if(file.isDirectory()) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 }
