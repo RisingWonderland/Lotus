@@ -46,6 +46,28 @@ public class CheckValid {
 		return obj;
 	}
 	
+	/**
+	 * Check whether the string is null or empty string.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param str
+	 * @return
+	 */
+	public static boolean checkStrIsNullOrEmpty(String str) {
+		if(str == null || str.equals("")) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public static boolean checkStrIsNotNullAndEmpty(String str) {
+		if(checkStrIsNullOrEmpty(str)) {
+			throw new IllegalArgumentException("Wrong, specified sring can not be null or empty string.");
+		}
+		return true;
+	}
+	
 	
 	public static boolean checkIsDocument(File file){
 		if(file.isFile()){
