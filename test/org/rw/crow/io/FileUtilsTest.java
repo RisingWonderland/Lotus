@@ -1,12 +1,13 @@
 package org.rw.crow.io;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -79,9 +80,25 @@ public class FileUtilsTest {
 	
 	@Test
 	public void testSizeConvert() {
+		double size = 243724599;// unit: B, 238.012303711
+		String result = FileUtils.sizeConvert(size, "MB", 6);
+		System.out.println(result);
+		
+		
+	}
+	
+	@Test
+	public void testSizeAutoConvert() {
 		double size = 243724599;// unit: B
 		String result = FileUtils.sizeAutoConvert(size, 2);
 		System.out.println(result);
+	}
+	
+	@Test
+	public void testSizeAutoConvert2Map() {
+		double size = 243724599;// unit: B
+		HashMap<String, Object> map = FileUtils.sizeAutoConvert2Map(size, 3);
+		System.out.println(map.get("size") + (String) map.get("unit"));
 	}
 	
 	@Test

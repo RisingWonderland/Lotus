@@ -37,5 +37,13 @@ public class MathUtilsTest {
 		double result = MathUtils.precisionDecimal(num, 2);
 		System.out.println(result);
 	}
+	
+	@Test
+	public void testPrecisionDecimalFormatForFraction() {
+		double num = 232.4338903427124;
+		String result = MathUtils.precisionDecimalFormatForFraction(num, 1);
+		System.out.println(result);
+		
+	}
 
 }

@@ -27,6 +27,8 @@ public class ConstantUtils {
 	public static final String SIZE_NB = "NB";
 	public static final String SIZE_DB = "DB";
 	public static final String SIZE_CB = "CB";
-	public static final String[] SIZE_UNITS = new String[]{"B","KB","MB","GB","TB","PB","EB","ZB","YB","BB","NB","DB","CB"};
+	public static final String[] SIZE_UNITS = new String[]{
+		SIZE_B,SIZE_KB,SIZE_MB,SIZE_GB,SIZE_TB,SIZE_PB,SIZE_EB,
+		SIZE_ZB,SIZE_YB,SIZE_BB,SIZE_NB,SIZE_DB,SIZE_CB};
 	
 }

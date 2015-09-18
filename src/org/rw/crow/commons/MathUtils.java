@@ -1,6 +1,7 @@
 package org.rw.crow.commons;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 /**
  * Provides some methods for mathematics.
@@ -37,6 +38,22 @@ public class MathUtils {
 		
 		BigDecimal bd = new BigDecimal(num);
 		return bd.setScale(digit, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+	
+	
+	public static String precisionDecimalFormatForFraction(double num, int digit) {
+		String pattern = "0.";
+		if(digit < 1){
+			throw new IllegalArgumentException("Wrong, the value of \"digit\" must be > 0.");
+		}
+		
+		for(int i = 0; i < digit; i++) {
+			pattern += "0";
+		}
+		
+		DecimalFormat df = new DecimalFormat(pattern);
+		
+		return df.format(num);
 	}
 	
 }

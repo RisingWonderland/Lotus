@@ -243,9 +243,33 @@ public class FileUtils {
 	 * @param digit
 	 * @return
 	 */
-	public static String sizeConvert(double size, int digit) {
+	public static String sizeConvert(double size, String unit, int digit) {
+		// 检测接收到的单位是否合法
+		if(unit == null || unit.equals("")) {
+			throw new IllegalArgumentException("Parameter \"unit\" can not be null or empty string.");
+		}
 		
-		return null;
+		boolean isUnitExist = false;
+		int index = 0;
+		for(int l = ConstantUtils.SIZE_UNITS.length; index < l; index++) {
+			if(unit.equals(ConstantUtils.SIZE_UNITS[index])) {
+				isUnitExist = true;
+				break;
+			}
+		}
+		
+		if(!isUnitExist) {
+			throw new IllegalArgumentException("Parameter \"unit\" value not exist in ConstantUtils.SIZE_UNITS.");
+		}
+		
+		int base = 1024;// may be 1000
+		if(index > 0) {
+			for(int i = 0; i < index; i++) {
+				size = size / base;
+			}
+		}
+		
+		return MathUtils.precisionDecimal(size, digit) + unit;
 	}
 	
 	/**
@@ -264,11 +288,25 @@ public class FileUtils {
 		return MathUtils.precisionDecimal(size, digit) + unit;
 	}
 	
-	
-//	public static HashMap<String, Object> sizeAutoConvert(double size, int digit) {
-//		
-//		return null;
-//	}
+	/**
+	 * File size unit automatic convert.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param size
+	 * @param digit
+	 * @return a HashMap that contains size and unit
+	 */
+	public static HashMap<String, Object> sizeAutoConvert2Map(double size, int digit) {
+		int base = 1024;// may be 1000
+		int index = (int) Math.floor(Math.log(size) / Math.log(base));
+		size = size / Math.pow(base, Math.floor(Math.log(size) / Math.log(base)));
+		String unit = ConstantUtils.SIZE_UNITS[index];
+		size = MathUtils.precisionDecimal(size, digit);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("size", size);
+		map.put("unit", unit);
+		return map;
+	}
 	
 	/**
 	 * Open and return a {@link FileInputStream} for the target file.
