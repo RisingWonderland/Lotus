@@ -1,4 +1,4 @@
-package org.rw.crow.io;
+package org.rw.crow.commons;
 
 import static org.junit.Assert.fail;
 
@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.rw.crow.commons.PropertyUtils;
+import org.rw.crow.io.FileUtils;
 
 public class PropertyUtilsTest {
 
@@ -41,6 +42,8 @@ public class PropertyUtilsTest {
 	public void testGetPropertyStream() {
 		String propertyPath = "/info.properties";
 		InputStream is = PropertyUtils.getPropertyStream(propertyPath);
+		is.toString();
+		FileUtils.closeStream(is);
 	}
 	
 	@Test

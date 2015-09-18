@@ -1,4 +1,4 @@
-package org.rw.crow.io;
+package org.rw.crow.commons;
 
 import static org.junit.Assert.fail;
 
@@ -91,7 +91,7 @@ public class PathUtilsTest {
 	public void testGetPlainFileName(){
 		String path1 = "C:/Workspaces/MyEclipse Professional 2014/Lotus/";
 		String path2 = "C:/Workspaces/MyEclipse Professional 2014/Lotus/README.md";
-//		System.out.println(PathUtils.getPlainFileName(path1));
+		System.out.println(PathUtils.getPlainFileName(path1));
 		System.out.println(PathUtils.getPlainFileName(path2));
 	}
 
