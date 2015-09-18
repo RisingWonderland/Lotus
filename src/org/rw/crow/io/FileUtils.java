@@ -118,6 +118,19 @@ public class FileUtils {
 		}
 	}
 	
+	public static void closeStreams(Closeable... streams) {
+		try {
+			for(Closeable stream : streams) {
+				if(stream != null) {
+					stream.close();
+				}
+			}
+		} catch (IOException e) {
+			System.out.println("Close IO stream failure.");
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Make the parent directory.
 	 * @author Crow
@@ -436,13 +449,7 @@ public class FileUtils {
 			e.printStackTrace();
 			return false;
 		} finally {
-			try {
-				if(bw != null) bw.close();
-				if(osw != null) osw.close();
-			} catch (IOException e){
-				e.printStackTrace();
-				return false;
-			}
+			closeStreams(bw, osw);
 		}
 		return true;
 	}
@@ -501,11 +508,7 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if(is != null) is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			closeStream(is);
 		}
 		
 		return sbd.toString();
@@ -531,16 +534,7 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if(br != null){
-					br.close();
-				}
-				if(fr != null){
-					fr.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			closeStreams(br, fr);
 		}
 		
 		return firstLine;
@@ -572,12 +566,7 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if(br != null) br.close();
-				if(fr != null) fr.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			closeStreams(br, fr);
 		}
 		
 		return firstLine;
@@ -606,12 +595,7 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if(br != null) br.close();
-				if(fr != null) fr.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			closeStreams(br, fr);
 		}
 		
 		return lastLine;
@@ -642,12 +626,7 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if(br != null) br.close();
-				if(fr != null) fr.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			closeStreams(br, fr);
 		}
 		
 		return lastLine;
@@ -772,16 +751,7 @@ public class FileUtils {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
-				try {
-					if(fos != null){
-						fos.close();
-					}
-					if(fis != null){
-						fis.close();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				closeStreams(fos, fis);
 			}
 		}
 		
