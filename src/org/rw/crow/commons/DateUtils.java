@@ -291,6 +291,279 @@ public class DateUtils {
 	
 	
 	/**
+	 * Return year.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getYear(Date date) {
+		return getCalendar(date).get(Calendar.YEAR);
+	}
+	
+	/**
+	 * Return year from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @return
+	 */
+	public static int getYearNow() {
+		return getCalendar(new Date()).get(Calendar.YEAR);
+	}
+	
+	/**
+	 * Return month.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return 0-11
+	 */
+	public static int getMonth(Date date) {
+		return getCalendar(date).get(Calendar.MONTH);
+	}
+	
+	/**
+	 * Return month from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getMonthNow() {
+		return getCalendar(new Date()).get(Calendar.MONTH);
+	}
+	
+	/**
+	 * Return day of year.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getDayOfYear(Date date) {
+		return getCalendar(date).get(Calendar.DAY_OF_YEAR);
+	}
+	
+	/**
+	 * Return day of year from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getDayOfYearNow() {
+		return getCalendar(new Date()).get(Calendar.DAY_OF_YEAR);
+	}
+	
+	/**
+	 * Return day of month.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getDayOfMonth(Date date) {
+		return getCalendar(date).get(Calendar.DAY_OF_MONTH);
+	}
+	
+	/**
+	 * Return day of month from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getDayOfMonthNow() {
+		return getCalendar(new Date()).get(Calendar.DAY_OF_MONTH);
+	}
+	
+	/**
+	 * Return day of week.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return 1 --> Sunday
+	 */
+	public static int getDayOfWeek(Date date) {
+		return getCalendar(date).get(Calendar.DAY_OF_WEEK);
+	}
+	
+	/**
+	 * Return day of week from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getDayOfWeekNow() {
+		return getCalendar(new Date()).get(Calendar.DAY_OF_WEEK);
+	}
+	
+	/**
+	 * Return hour12.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getHour12(Date date) {
+		return getCalendar(date).get(Calendar.HOUR);
+	}
+	
+	/**
+	 * Return hour12 from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getHour12Now() {
+		return getCalendar(new Date()).get(Calendar.HOUR);
+	}
+	
+	/**
+	 * Return hour24.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getHour24(Date date) {
+		return getCalendar(date).get(Calendar.HOUR_OF_DAY);
+	}
+	
+	/**
+	 * Return hour24 from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getHour24Now() {
+		return getCalendar(new Date()).get(Calendar.HOUR_OF_DAY);
+	}
+	
+	/**
+	 * Return minute from a {@link Date}.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getMinute(Date date) {
+		return getCalendar(date).get(Calendar.MINUTE);
+	}
+	
+	/**
+	 * Return minute from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getMinuteNow() {
+		return getCalendar().get(Calendar.MINUTE);
+	}
+	
+	/**
+	 * Return second from a {@link Date}.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getSecond(Date date) {
+		return getCalendar(date).get(Calendar.SECOND);
+	}
+	
+	/**
+	 * Return second from now date.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getSecondNow() {
+		return getCalendar().get(Calendar.SECOND);
+	}
+	
+	/**
+	 * Return millisecond from a {@link Date}.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @return
+	 */
+	public static int getMillisecond(Date date) {
+		return getCalendar(date).get(Calendar.MILLISECOND);
+	}
+	
+	/**
+	 * Return millisecond from a {@link Date}.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @return
+	 */
+	public static int getMillisecondNow() {
+		return getCalendar(new Date()).get(Calendar.MILLISECOND);
+	}
+	
+	
+	
+	/**
+	 * Get the specified time according to the date and time difference.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param date
+	 * @param unit Calendar.YEAR...
+	 * @param diff time difference
+	 * @return
+	 */
+	public static Date getDateByTimeDiff(Date date, int unit, int diff) {
+		if(CheckValid.checkIsNull(date)) {
+			throw new IllegalArgumentException("Wrong, date parameter value can not be null.");
+		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		switch(unit) {
+		case Calendar.YEAR: 
+			cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + diff);
+			break;
+		case Calendar.MONTH: 
+			cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + diff);
+			break;
+		case Calendar.DAY_OF_MONTH: 
+			cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + diff);
+			break;
+		case Calendar.DAY_OF_WEEK: 
+			cal.set(Calendar.DAY_OF_WEEK, cal.get(Calendar.DAY_OF_WEEK) + diff);
+			break;
+		case Calendar.DAY_OF_WEEK_IN_MONTH: 
+			cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, cal.get(Calendar.DAY_OF_WEEK_IN_MONTH) + diff);
+			break;
+		case Calendar.HOUR: 
+			cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) + diff);
+			break;
+		case Calendar.HOUR_OF_DAY: 
+			cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) + diff);
+			break;
+		case Calendar.MINUTE: 
+			cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE) + diff);
+			break;
+		case Calendar.SECOND: 
+			cal.set(Calendar.SECOND, cal.get(Calendar.SECOND) + diff);
+			break;
+		case Calendar.MILLISECOND: 
+			cal.set(Calendar.MILLISECOND, cal.get(Calendar.MILLISECOND) + diff);
+			break;
+		}
+		
+		return cal.getTime();
+	}
+	
+	
+	/**
 	 * Get the time difference of two {@link Date}.
 	 * @author Crow
 	 * @date 2015年9月20日
