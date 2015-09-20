@@ -43,5 +43,13 @@ public class DateUtilsTest {
 		System.out.println(DateUtils.getDatetimeStr(new Date()));
 		System.out.println(DateUtils.getDatetimeStr(new Date(), DateUtils.PATTERN_DATETIME));
 	}
+	
+	@Test
+	public void testGetCalendar() {
+		Calendar cal = DateUtils.getCalendar();
+		System.out.println(cal.getTimeInMillis());
+		System.out.println(cal.getTime());
+	}
+	
 
 }

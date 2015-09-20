@@ -239,8 +239,40 @@ public class DateUtils {
 	}
 	
 	
-//	public static Calendar getCalendar(Date datetime, Locale locale) {
-//		
-//	}
+	
+	/**
+	 * Return a {@link Calendar} instance.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @return
+	 */
+	public static Calendar getCalendar() {
+		return Calendar.getInstance();
+	}
+	
+	/**
+	 * Return a {@link Calendar} instance.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param datetime
+	 * @return
+	 */
+	public static Calendar getCalendar(Date datetime) {
+		return getCalendar(datetime, LOCALE_DEFAULT);
+	}
+	
+	/**
+	 * Return a {@link Calendar} instance.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param datetime
+	 * @param locale
+	 * @return
+	 */
+	public static Calendar getCalendar(Date datetime, Locale locale) {
+		Calendar cal = Calendar.getInstance(locale);
+		cal.setTime(datetime);
+		return cal;
+	}
 	
 }
