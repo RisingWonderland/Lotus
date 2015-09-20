@@ -1000,7 +1000,7 @@ public class FileUtils {
 	 * else if 0, then they are the same date.
 	 */
 	public static int compareFileDate(File file1, File file2) {
-		return compareFileDate(file1, file2);
+		return compareFileDate(file1, file2.lastModified());
 	}
 	
 	/**
@@ -1043,5 +1043,27 @@ public class FileUtils {
 		}
 		
 		return 0;
+	}
+	
+	
+	/**
+	 * Compare two files size.
+	 * @author Crow
+	 * @date 2015年9月20日
+	 * @param file1
+	 * @param file2
+	 * @return
+	 * @throws IOException
+	 */
+	public static int compareFileSize(File file1, File file2) throws IOException {
+		long size1 = getSize(file1), size2 = getSize(file2);
+		
+		if(size1 > size2) {
+			return 1;
+		} else if (size1 < size2) {
+			return -1;
+		} else {
+			return 0;
+		}
 	}
 }

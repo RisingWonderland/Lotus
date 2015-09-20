@@ -2,6 +2,7 @@ package org.rw.crow.commons;
 
 import static org.junit.Assert.fail;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -34,8 +35,14 @@ public class DateUtilsTest {
 	}
 
 	@Test
-	public void test() {
+	public void test() throws ParseException {
+		Date d1 = DateUtils.getDate("2012-12-12 12:12:12");
+		Date d2 = DateUtils.getDate("2014-12-12 12:12:12");
+		System.out.println(d1.after(d2));
+		System.out.println(d1.before(d2));
+		System.out.println(d1.equals(d2));
 		
+		System.out.println(DateUtils.getTimeStr(new Date()));
 	}
 	
 	@Test
@@ -49,6 +56,14 @@ public class DateUtilsTest {
 		Calendar cal = DateUtils.getCalendar();
 		System.out.println(cal.getTimeInMillis());
 		System.out.println(cal.getTime());
+	}
+	
+	@Test
+	public void testCompareDate() throws ParseException {
+		Date d1 = DateUtils.getDate("2012-12-12 12:12:12");
+		Date d2 = DateUtils.getDate("2014-12-12 12:12:12");
+		
+		System.out.println(DateUtils.compareDate(d1, d2));
 	}
 	
 

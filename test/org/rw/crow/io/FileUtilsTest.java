@@ -262,5 +262,11 @@ public class FileUtilsTest {
 		boolean result = FileUtils.clearAllFileInFirstLevelFolder(new File("F:/J2EE_Servlet"));
 		System.out.println(result);
 	}
+	
+	@Test
+	public void testCompareFileSize() throws IOException {
+		File file2 = new File("E:/J2EE_Servlet.zip");
+		System.out.println(FileUtils.compareFileSize(file, file2));
+	}
 
 }
