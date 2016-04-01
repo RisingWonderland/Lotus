@@ -1,4 +1,8 @@
 package org.rw.crow.regular;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+
 /**
  * Check parameter validity
  * @author Crow
@@ -39,6 +43,33 @@ public class CheckValid {
 			throw new NullPointerException();
 		}
 		return obj;
+	}
+	
+	
+	public static boolean checkIsDocument(File file){
+		if(file.isFile()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Check whether the file is a document, if it is, then throw FileNotFoundException.
+	 * @author Crow
+	 * @date 2015年5月25日
+	 * @version v0.1
+	 * @param file
+	 * @return
+	 */
+	public static File checkNotDocument(File file){
+		if(!file.isFile()){
+			try {
+				throw new FileNotFoundException();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return file;
 	}
 	
 }
