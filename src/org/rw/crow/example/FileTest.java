@@ -18,7 +18,7 @@ public class FileTest {
 //		FileUtils.write(logFile, System.currentTimeMillis(), true);
 		
 		File fileShouldBeRead = new File("G:\\TempFiles\\小知识.txt");
-		String data = FileUtils.readEntrieFile(fileShouldBeRead);
+		String data = FileUtils.readTextFile(fileShouldBeRead);
 		System.out.println(data);
 	}
 	

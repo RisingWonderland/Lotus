@@ -2,6 +2,7 @@ package org.rw.crow.regular;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Check parameter validity
@@ -45,6 +46,28 @@ public class CheckValid {
 		return obj;
 	}
 	
+	/**
+	 * Check whether the string is null or empty string.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param str
+	 * @return
+	 */
+	public static boolean checkStrIsNullOrEmpty(String str) {
+		if(str == null || str.equals("")) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public static boolean checkStrIsNotNullAndEmpty(String str) {
+		if(checkStrIsNullOrEmpty(str)) {
+			throw new IllegalArgumentException("Wrong, specified sring can not be null or empty string.");
+		}
+		return true;
+	}
+	
 	
 	public static boolean checkIsDocument(File file){
 		if(file.isFile()){
@@ -54,22 +77,95 @@ public class CheckValid {
 	}
 	
 	/**
-	 * Check whether the file is a document, if it is, then throw FileNotFoundException.
+	 * Check whether the file is a document, if it is not, then throw FileNotFoundException.
 	 * @author Crow
 	 * @date 2015年5月25日
 	 * @version v0.1
 	 * @param file
+	 * @throws FileNotFoundException 
 	 * @return
 	 */
-	public static File checkNotDocument(File file){
+	public static File checkNotDocument(File file) throws FileNotFoundException{
 		if(!file.isFile()){
-			try {
-				throw new FileNotFoundException();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			throw new FileNotFoundException();
 		}
 		return file;
+	}
+	
+	/**
+	 * Check whether the file is exist.
+	 * @author Crow
+	 * @date 2015年9月17日
+	 * @param file
+	 * @return
+	 */
+	public static boolean checkFileExist(File file) {
+		if(file == null) {
+			throw new IllegalArgumentException("No specified file.");
+		}
+		
+		if(file.exists()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Check whether the file is readable.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param file
+	 * @return
+	 * @throws IOException 
+	 */
+	public static boolean checkFileCanRead(File file) throws IOException{
+		String fileName = file.getName();
+		if(!checkFileExist(file)){
+			throw new FileNotFoundException("File " + fileName + " not found.");
+		}
+		if(!file.canRead()){
+			throw new IOException("File " + fileName + "can not be read.");
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Check whether the file is writable.
+	 * @author Crow
+	 * @date 2015年9月10日
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean checkFileCanEdit(File file) throws IOException{
+		String fileName = file.getName();
+		if(!checkFileExist(file)){
+			throw new FileNotFoundException("File " + fileName + " not found.");
+		}
+		if(!file.canWrite()){
+			throw new IOException("File " + fileName + "can not be write.");
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Check whether the file is directory.
+	 * @author Crow
+	 * @date 2015年9月18日
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean checkFileIsDirectory(File file) throws IOException {
+		checkFileCanRead(file);
+		
+		if(file.isDirectory()) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 }
